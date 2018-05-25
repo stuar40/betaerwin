@@ -1,14 +1,17 @@
-const mysql = require('mysql');
 
-///*
-connection = mysql.createConnection(
-    {
-		 host: 'us-cdbr-sl-dfw-01.cleardb.net',
-		  user: 'bd84f383c0825e',
-		  password: '1c361825',
-		  database: 'ibmsl_87bbd800f198a455470d'
-    }
-);
+var mysql = require('mysql');
+
+var mysqlPool  = mysql.createPool({
+    host : "160.153.16.62",
+    user : "autoparking2018",
+    password: "autoparking@2018",
+    database :"autoparking_v1",
+    port:3306
+
+});
+
+module.exports = mysqlPool;
+
 //*/
 /*
 const connection = mysql.createConnection(
