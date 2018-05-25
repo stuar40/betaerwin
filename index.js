@@ -1,46 +1,38 @@
 'use strict'
+const port = process.env.PORT || 3000
+const conect = require ('./config')
+const dato = require ('./models/dato')
 
-const port = process.env.PORT || 3000;
+const app = require ('./app')
 
-var express=require("express");
-var bodyParser=require('body-parser');
-var jwt= require("jsonwebtoken");
-var app = express();
-var router=express.Router();
+//******************************************
 
-var authenticateController=require('./controllers/authenticate-controller');
-var registerController=require('./controllers/register-controller');
+var mysql = require('mysql');
 
-process.env.SECRET_KEY="thisismysecretkey";
-app.use(bodyParser.urlencoded({extended:true}));
-app.use(bodyParser.json());
+var mysqlPool  = mysql.createPool({
+    host : "160.153.16.62",
+    user : "autoparking2018",
+    password: "autoparking@2018",
+    database :"autoparking_v1",
+    port:3306
 
-app.post('/api/authenticate',authenticateController.authenticate);
-app.post('/api/register',registerController.register);
-
-
-app.use('/secure-api',router);
-
-
-// validacion middleware
-router.use(function(req,res,next){
-    var token=req.body.token || req.headers['token'];
-    if(token){
-        jwt.verify(token,process.env.SECRET_KEY,function(err,ress){
-            if(err){
-                res.status(500).send('Token Invalid');
-            }else{
-                next();
-            }
-        })
-    }else{
-        res.send('Please send a token')
+});
+//***********************************
+/*
+//llamamos al paquete mysql que hemos instalado
+const mysql = require('mysql'),
+//creamos la conexion a nuestra base de datos con los datos de acceso de cada uno
+connection = mysql.createConnection(
+    {
+      host: '160.153.16.62',
+ 		  user: 'autoparking2018',
+ 		  password: 'autoparking@2018',
+ 		  database: 'autoparking_v1'
     }
-})
+);*/
+//mysqlPool.connect()
 
-router.get('/home',function(req,res){
-    res.send('Token Verified')
-})
+
 
 app.listen(port,() =>
 {
